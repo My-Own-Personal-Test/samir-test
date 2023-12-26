@@ -9,6 +9,9 @@ const base = 'https://raw.githubusercontent.com/andreascandle/p2p_json_test/main
  * ```ts
  * fetchInstance('/example_url', { method: 'post', body: { exampleBody: 'value'}})
  * ```
+ * @see
+ * https://unjs.io/packages/ofetch
+ * https://github.com/unjs/ofetch
  */
 const fetchInstance: $Fetch = ofetch.create({
   baseURL: base,
