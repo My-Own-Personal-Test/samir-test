@@ -12,7 +12,7 @@ export async function getList() {
   const { loanList: _loanList } = storeToRefs(loanList)
 
   loadingList.value = true
-  const res = await fetchInstance('/').catch((error: Error) => {
+  const res = await fetchInstance('/', { method: 'GET' }).catch((error: Error) => {
     alertTrigger({ show: true, msg: error.message, variant: 'alert-error' })
   }).finally(() => {
     loadingList.value = false
