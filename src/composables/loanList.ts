@@ -7,13 +7,22 @@ import { useAlertController } from '@/composables/ui/alertController'
 
 export const loadingList = ref(false)
 
+/**
+ * Fetches the loan list asynchronously and updates the state.
+ * Displays an alert in case of an error during the fetch operation.
+ *
+ * @throws {Error} If there is an error during the fetch operation.
+ */
 export async function getList(): Promise<void> {
   const { alertTrigger } = useAlertController()
   const loanList = useLoanListState()
   const { loanList: _loanList } = storeToRefs(loanList)
 
   loadingList.value = true
-  const res: FetchResponse<JSON> = await fetchInstance('/', { method: 'GET', parseResponse: JSON.parse })
+  const res: FetchResponse<JSON> = await fetchInstance('/', {
+    method: 'GET',
+    parseResponse: JSON.parse,
+  })
     .catch((error: Error) => {
       alertTrigger({ show: true, msg: error.message, variant: 'alert-error' })
     })
