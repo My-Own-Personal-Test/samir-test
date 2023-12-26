@@ -1,0 +1,21 @@
+import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { fetchInstance } from '@/composables/fetch.config'
+import { useLoanListState } from '@/stores/loanListState'
+
+export const loadingList = ref(false)
+
+export async function getList() {
+  const loanList = useLoanListState()
+  const { loanList: _loanList } = storeToRefs(loanList)
+
+  loadingList.value = true
+  const res = await fetchInstance('/').catch((error) => {
+    console.log(error)
+  }).finally(() => {
+    loadingList.value = false
+  })
+
+  const parsed = JSON.parse(res)
+  _loanList.value.push(parsed)
+}
