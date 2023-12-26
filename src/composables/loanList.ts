@@ -30,5 +30,11 @@ export async function getList(): Promise<void> {
       loadingList.value = false
     })
 
-  _loanList.value.push(res)
+  if (_loanList.value.length) {
+    _loanList.value = []
+    _loanList.value.push(res)
+  }
+  else {
+    _loanList.value.push(res)
+  }
 }
