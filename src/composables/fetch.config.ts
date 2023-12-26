@@ -1,6 +1,6 @@
 import { type $Fetch, ofetch } from 'ofetch'
 
-const base = import.meta.env.DEV ? import.meta.env.VITE_DEV_URL : import.meta.env.VITE_PROD_URL
+const base = 'https://raw.githubusercontent.com/andreascandle/p2p_json_test/main/api/json/loans.json'
 
 /**
  * Customized fetch instance for making HTTP requests.
