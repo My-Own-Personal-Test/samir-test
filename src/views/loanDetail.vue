@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useLoanListState } from '@/stores/loanListState'
 import { getList } from '@/composables/loanList'
+import { useCurrencyFormat } from '@/plugins/numberFormatter'
+import { useDateFormatter } from '@/plugins/dateFormatter'
 import CardRoot from '@/components/ui/organisms/CardRoot.vue'
 import SkeletonsComponents from '@/components/ui/atoms/SkeletonsComponents.vue'
 
@@ -57,20 +59,87 @@ onBeforeUnmount(() => {
       </template>
 
       <template #body>
-        <div class="sm:grid grid-cols-2 mt-6">
-          <div>
-            <p class="font-semibold">
-              Borrower Details:
-            </p>
-            <div class="mt-1">
-              <p>Name: {{ _loanDetail.borrower.name }}</p>
-              <p>Score: {{ _loanDetail.borrower.creditScore }}</p>
+        <div class="">
+          <div class="grid grid-cols-2">
+            <div>
+              <p class="font-semibold">
+                Borrower Details:
+              </p>
+              <div class="mt-1">
+                <div>
+                  <p>Name: {{ _loanDetail.borrower.name }}</p>
+                  <p>Email: {{ _loanDetail.borrower.email }}</p>
+                  <p>Score: {{ _loanDetail.borrower.creditScore }}</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="font-semibold">
+                Documents:
+              </p>
+              <div
+                v-for="(doc, id) in _loanDetail.documents"
+                :key="id"
+                class="grid grid-cols-2"
+              >
+                <p>Type: {{ doc.type }}</p>
+                <p>
+                  Document File: <a
+                    :href="doc.url"
+                    class="hover:underline"
+                  >
+                    See Document
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
-          <div>
-            <p class="font-semibold">
-              Repayment Schedule:
-            </p>
+
+          <div class="mt-4 grid grid-cols-2">
+            <div>
+              <p class="font-semibold">
+                Repayment Schedule:
+              </p>
+              <ol
+                class="mt-1"
+              >
+                <li
+                  v-for="(item, id) in _loanDetail.repaymentSchedule.installments"
+                  :key="id"
+                  class="mb-2"
+                >
+                  <div class="flex gap-x-4">
+                    <span>{{ id + 1 }}. Due Date: {{ useDateFormatter(item.dueDate) }}</span>
+                    <span>Amount Due: {{ useCurrencyFormat(item.amountDue) }}</span>
+                  </div>
+                </li>
+              </ol>
+            </div>
+
+            <div>
+              <p class="font-semibold">
+                Loan Information:
+              </p>
+
+              <div class="mt-1 grid grid-cols-2">
+                <div>
+                  <p>Loan Amount: {{ useCurrencyFormat(_loanDetail.amount) }}</p>
+                  <p>Risk: {{ _loanDetail.riskRating }}</p>
+                  <p>Term: {{ _loanDetail.term }} days</p>
+                </div>
+
+                <div>
+                  <p>Purpose: {{ _loanDetail.purpose }}</p>
+                  <p>Interest Rate: {{ _loanDetail.interestRate }}%</p>
+                  <p>
+                    Collateral: <span class="grid grid-cols-2">
+                      <p>{{ _loanDetail.collateral.type }}</p>
+                      <p>{{ useCurrencyFormat(_loanDetail.collateral.value) }}</p>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </template>
