@@ -12,7 +12,7 @@ import SpinnerComponent from '@/components/ui/atoms/SpinnerComponent.vue'
 const direction = ref('asc')
 
 const loanList = useLoanListState()
-const { shownList, totalPages, page, empty } = storeToRefs(loanList)
+const { shownList, totalPages, page, empty, userInput } = storeToRefs(loanList)
 
 function goToPage(pageNumber: number) {
   page.value = pageNumber
@@ -45,14 +45,27 @@ function sort() {
     v-else
     class="grid place-items-center min-h-screen sm:block"
   >
-    <div class="flex justify-start w-full p-4">
+    <div class="flex justify-start w-full p-4 items-end gap-x-6">
       <BaseButton
         id="btn-sort"
-        class="btn-primary"
+        class="btn-primary sm:hidden"
         @click="sort"
       >
         Sort
       </BaseButton>
+
+      <div class="flex-col w-fit flex">
+        <label
+          for="filter"
+        >
+          Filter by Name
+        </label>
+        <input
+          id="filter"
+          v-model="userInput"
+          class="input input-bordered focus:input-primary"
+        >
+      </div>
     </div>
 
     <div

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
 import { ref } from 'vue'
-import { storeToRefs } from 'pinia'
 import { useCurrencyFormat } from '@/plugins/numberFormatter'
 import { useLoanListState } from '@/stores/loanListState'
 import BaseButton from '@/components/ui/atoms/BaseButton.vue'
@@ -18,9 +17,7 @@ interface Sort {
 const props = defineProps<Props>()
 
 const direction = ref('asc')
-
 const loanState = useLoanListState()
-const { userInput } = storeToRefs(loanState)
 
 function sort(params: Sort) {
   const { sortList } = loanState
@@ -32,19 +29,7 @@ function sort(params: Sort) {
 
 <template>
   <div class="overflow-x-auto">
-    <div class="mt-4 ml-4 flex flex-col w-fit">
-      <label
-        for="filter"
-      >
-        Filter by Name
-      </label>
-      <input
-        id="filter"
-        v-model="userInput"
-        class="input input-bordered focus:input-primary"
-      >
-    </div>
-    <table class="table table-zebra mt-10">
+    <table class="table table-zebrah">
       <!-- head -->
       <thead>
         <tr class="text-center">
@@ -54,13 +39,13 @@ function sort(params: Sort) {
             <Icon
               v-if="direction === 'asc'"
               icon="solar:double-alt-arrow-up-linear"
-              class="text-xl"
+              class="text-xl hover:cursor-pointer"
               @click="sort({ direction: 'asc' })"
             />
             <Icon
               v-else
               icon="solar:double-alt-arrow-down-linear"
-              class="text-xl"
+              class="text-xl hover:cursor-pointer"
               @click="sort({ direction: 'desc' })"
             />
           </th>
