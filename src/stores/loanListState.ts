@@ -15,6 +15,8 @@ export const useLoanListState = defineStore('loan_state', () => {
   const shownList = ref<any>([])
   const page = ref(1)
   const itemsPerPage = ref(5)
+  const userInput = ref('')
+  const empty = ref(false)
 
   /**
    * Calculates the total number of pages based on the length of the loan list and the number of items per page.
@@ -24,6 +26,18 @@ export const useLoanListState = defineStore('loan_state', () => {
    * @returns A computed property representing the total number of pages.
    */
   const totalPages = computed(() => Math.ceil(loanList.value.length / itemsPerPage.value))
+
+  /**
+   * Computed property to filter the loan list based on user input.
+   */
+  const filteredLoanList = computed(() => {
+    const input = userInput.value.toLowerCase() // Convert user input to lowercase for case-insensitive comparison
+    return loanList.value.filter((item) => {
+      // Customize the condition based on your filtering logic
+      // In this example, it checks if the loan's title contains the user input
+      return item.borrower.name.toLowerCase().includes(input)
+    })
+  })
 
   /**
    * Watches changes in the current page and loan list, updating the shown list accordingly.
@@ -40,7 +54,18 @@ export const useLoanListState = defineStore('loan_state', () => {
   })
 
   /**
-   * Retrieves loan details by ID from the loan list.
+   * Watch for changes in the user input and update the shown list accordingly.
+   */
+  watch(() => userInput.value, () => {
+    const start = (page.value - 1) * itemsPerPage.value
+    const end = start + itemsPerPage.value
+    shownList.value = filteredLoanList.value.slice(start, end)
+    if (!shownList.value.length)
+      empty.value = true
+  })
+
+  /**
+   * Retrieves loan details by ID f rom the loan list.
    *
    * @param loanId - The ID of the loan to retrieve details for.
    */
@@ -68,6 +93,9 @@ export const useLoanListState = defineStore('loan_state', () => {
     shownList,
     page,
     totalPages,
+    userInput,
+    filteredLoanList,
+    empty,
   }
 })
 

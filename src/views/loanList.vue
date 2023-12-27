@@ -9,7 +9,7 @@ import TableComponents from '@/components/ui/organisms/TableComponents.vue'
 import SpinnerComponent from '@/components/ui/atoms/SpinnerComponent.vue'
 
 const loanList = useLoanListState()
-const { shownList, totalPages, page } = storeToRefs(loanList)
+const { shownList, totalPages, page, empty } = storeToRefs(loanList)
 
 function goToPage(pageNumber: number) {
   page.value = pageNumber
@@ -18,7 +18,7 @@ function goToPage(pageNumber: number) {
 
 <template>
   <div
-    v-if="!shownList.length"
+    v-if="!shownList.length && !empty"
     class="flex justify-center min-h-screen items-center"
   >
     <BaseButton
@@ -67,7 +67,10 @@ function goToPage(pageNumber: number) {
         :total-page="totalPages"
       />
     </div>
-    <div class="grid place-items-center mt-4">
+    <div
+      v-if="shownList.length"
+      class="grid place-items-center mt-4"
+    >
       <div class="join">
         <button
           v-for="btn in 6"
@@ -79,6 +82,12 @@ function goToPage(pageNumber: number) {
           {{ btn }}
         </button>
       </div>
+    </div>
+    <div
+      v-else-if="empty"
+      class="text-center"
+    >
+      <p>Oops! There's no match found...</p>
     </div>
   </section>
 </template>

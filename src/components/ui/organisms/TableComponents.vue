@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
+import { storeToRefs } from 'pinia'
 import { useCurrencyFormat } from '@/plugins/numberFormatter'
+import { useLoanListState } from '@/stores/loanListState'
 import BaseButton from '@/components/ui/atoms/BaseButton.vue'
 
 interface Props {
@@ -9,16 +11,36 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const loanState = useLoanListState()
+const { userInput } = storeToRefs(loanState)
 </script>
 
 <template>
   <div class="overflow-x-auto">
+    <div class="mt-4 ml-4 flex flex-col w-fit">
+      <label
+        for="filter"
+      >
+        Filter by Name
+      </label>
+      <input
+        id="filter"
+        v-model="userInput"
+        class="input input-bordered focus:input-primary"
+      >
+    </div>
     <table class="table table-zebra">
       <!-- head -->
       <thead>
         <tr class="text-center">
           <th />
-          <th>Name</th>
+          <th class="flex justify-center gap-x-2">
+            <p>Name </p>
+            <Icon
+              icon="solar:double-alt-arrow-up-linear"
+              class="text-xl"
+            />
+          </th>
           <th>Amount</th>
           <th>Interest Rate</th>
           <th>Term</th>
