@@ -28,17 +28,6 @@ export const useLoanListState = defineStore('loan_state', () => {
   const totalPages = computed(() => Math.ceil(loanList.value.length / itemsPerPage.value))
 
   /**
-   * Computed property to filter the loan list based on user input.
-   */
-  const filteredLoanList = computed(() => {
-    const input = userInput.value.toLowerCase()
-
-    return loanList.value.filter((item) => {
-      return item.borrower.name.toLowerCase().includes(input)
-    })
-  })
-
-  /**
    * Watches changes in the current page and loan list, updating the shown list accordingly.
    *
    * @param page - Reference to the current page.
@@ -56,11 +45,19 @@ export const useLoanListState = defineStore('loan_state', () => {
    * Watch for changes in the user input and update the shown list accordingly.
    */
   watch(() => userInput.value, () => {
+    const input = userInput.value.toLowerCase()
+    const filteredList = loanList.value.filter((item) => {
+      return item.borrower.name.toLowerCase().includes(input)
+    })
+
     const start = (page.value - 1) * itemsPerPage.value
     const end = start + itemsPerPage.value
-    shownList.value = filteredLoanList.value.slice(start, end)
+
+    shownList.value = filteredList.slice(start, end)
+
     if (!shownList.value.length)
       empty.value = true
+
     else
       empty.value = false
   })
@@ -86,6 +83,11 @@ export const useLoanListState = defineStore('loan_state', () => {
     }
   }
 
+  /**
+   * Sorts the shown list based on the specified sort direction and borrower names.
+   *
+   * @param direction - The sort direction ('asc' for ascending, 'desc' for descending).
+   */
   function sortList(direction: string) {
     shownList.value = shownList.value.sort((a, b) => {
       const aValue = a.borrower.name
