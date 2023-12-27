@@ -5,6 +5,6 @@ import dayjs from 'dayjs'
  * @param {Date} date - The Date object to be formatted.
  * @returns {string} - The formatted date string.
  */
-export function dayFormat(date: Date): string {
+export function useDateFormatter(date: Date): string {
   return dayjs(date).format('DD-MM-YYYY')
 }
