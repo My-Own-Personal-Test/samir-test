@@ -44,7 +44,7 @@ function sort(params: Sort) {
         class="input input-bordered focus:input-primary"
       >
     </div>
-    <table class="table table-zebra">
+    <table class="table table-zebra mt-10">
       <!-- head -->
       <thead>
         <tr class="text-center">
