@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { getList, loadingList } from '@/composables/loanList'
 import { useLoanListState } from '@/stores/loanListState'
@@ -8,11 +9,19 @@ import CardRoot from '@/components/ui/organisms/CardRoot.vue'
 import TableComponents from '@/components/ui/organisms/TableComponents.vue'
 import SpinnerComponent from '@/components/ui/atoms/SpinnerComponent.vue'
 
+const direction = ref('asc')
+
 const loanList = useLoanListState()
 const { shownList, totalPages, page, empty } = storeToRefs(loanList)
 
 function goToPage(pageNumber: number) {
   page.value = pageNumber
+}
+
+function sort() {
+  const { sortList } = loanList
+  direction.value = direction.value === 'asc' ? 'desc' : 'asc'
+  sortList(direction.value)
 }
 </script>
 
@@ -31,10 +40,21 @@ function goToPage(pageNumber: number) {
       <span v-else>Click to see Loan List</span>
     </BaseButton>
   </div>
+
   <section
     v-else
     class="grid place-items-center min-h-screen sm:block"
   >
+    <div class="flex justify-start w-full p-4">
+      <BaseButton
+        id="btn-sort"
+        class="btn-primary"
+        @click="sort"
+      >
+        Sort
+      </BaseButton>
+    </div>
+
     <div
       v-for="item in shownList"
       :key="item.borrower"
