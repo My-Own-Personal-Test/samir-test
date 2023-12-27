@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCurrencyFormat } from '@/plugins/numberFormatter'
 import { useLoanListState } from '@/stores/loanListState'
@@ -10,9 +11,23 @@ interface Props {
   items: Array<Record<string, any>>
 }
 
+interface Sort {
+  direction: 'asc' | 'desc'
+}
+
 const props = defineProps<Props>()
+
+const direction = ref('asc')
+
 const loanState = useLoanListState()
 const { userInput } = storeToRefs(loanState)
+
+function sort(params: Sort) {
+  const { sortList } = loanState
+
+  direction.value = params.direction === 'asc' ? 'desc' : 'asc'
+  sortList(params.direction)
+}
 </script>
 
 <template>
@@ -37,8 +52,16 @@ const { userInput } = storeToRefs(loanState)
           <th class="flex justify-center gap-x-2">
             <p>Name </p>
             <Icon
+              v-if="direction === 'asc'"
               icon="solar:double-alt-arrow-up-linear"
               class="text-xl"
+              @click="sort({ direction: 'asc' })"
+            />
+            <Icon
+              v-else
+              icon="solar:double-alt-arrow-down-linear"
+              class="text-xl"
+              @click="sort({ direction: 'desc' })"
             />
           </th>
           <th>Amount</th>

@@ -12,7 +12,7 @@ export const useLoanListState = defineStore('loan_state', () => {
   const loadingState = ref(true)
   const loanList = ref<Record<string, any>[]>([])
   const loanDetail = ref<Record<string, any>>({})
-  const shownList = ref<any>([])
+  const shownList = ref<any[]>([])
   const page = ref(1)
   const itemsPerPage = ref(5)
   const userInput = ref('')
@@ -31,10 +31,9 @@ export const useLoanListState = defineStore('loan_state', () => {
    * Computed property to filter the loan list based on user input.
    */
   const filteredLoanList = computed(() => {
-    const input = userInput.value.toLowerCase() // Convert user input to lowercase for case-insensitive comparison
+    const input = userInput.value.toLowerCase()
+
     return loanList.value.filter((item) => {
-      // Customize the condition based on your filtering logic
-      // In this example, it checks if the loan's title contains the user input
       return item.borrower.name.toLowerCase().includes(input)
     })
   })
@@ -62,10 +61,12 @@ export const useLoanListState = defineStore('loan_state', () => {
     shownList.value = filteredLoanList.value.slice(start, end)
     if (!shownList.value.length)
       empty.value = true
+    else
+      empty.value = false
   })
 
   /**
-   * Retrieves loan details by ID f rom the loan list.
+   * Retrieves loan details by ID from the loan list.
    *
    * @param loanId - The ID of the loan to retrieve details for.
    */
@@ -85,6 +86,19 @@ export const useLoanListState = defineStore('loan_state', () => {
     }
   }
 
+  function sortList(direction: string) {
+    shownList.value = shownList.value.sort((a, b) => {
+      const aValue = a.borrower.name
+      const bValue = b.borrower.name
+
+      if (direction === 'asc')
+        return aValue.localeCompare(bValue)
+
+      else
+        return bValue.localeCompare(aValue)
+    })
+  }
+
   return {
     loanList,
     getDetailById,
@@ -94,8 +108,8 @@ export const useLoanListState = defineStore('loan_state', () => {
     page,
     totalPages,
     userInput,
-    filteredLoanList,
     empty,
+    sortList,
   }
 })
 
