@@ -46,9 +46,10 @@ const { loanList: _loanList } = storeToRefs(loanList)
           <div class="grid grid-rows-2 gap-y-1">
             <div class="grid grid-cols-2">
               <p>Amount: <br>{{ useCurrencyFormat(item.amount) }}</p>
-              <p>Rating: {{ item.riskRating }}</p>
+              <p>Rate: {{ item.interestRate }}</p>
             </div>
             <div class="grid grid-cols-2">
+              <p>Rating: {{ item.riskRating }}</p>
               <p>Term: {{ item.term }} days</p>
             </div>
           </div>
@@ -56,7 +57,7 @@ const { loanList: _loanList } = storeToRefs(loanList)
       </CardRoot>
     </div>
 
-    <div class="py-10">
+    <div class="py-10 hidden sm:block">
       <TableComponents :items="_loanList" />
     </div>
   </section>

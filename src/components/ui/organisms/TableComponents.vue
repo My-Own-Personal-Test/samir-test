@@ -20,6 +20,7 @@ const props = defineProps<Props>()
           <th />
           <th>Name</th>
           <th>Amount</th>
+          <th>Interest Rate</th>
           <th>Term</th>
           <th />
         </tr>
@@ -33,6 +34,7 @@ const props = defineProps<Props>()
           <td>{{ idx + 1 }}</td>
           <td>{{ item.borrower.name }}</td>
           <td>{{ useCurrencyFormat(item.amount) }}</td>
+          <td>{{ item.interestRate }} %</td>
           <td>{{ item.term }} days</td>
           <td>
             <BaseButton
