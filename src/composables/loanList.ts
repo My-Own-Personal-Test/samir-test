@@ -17,6 +17,19 @@ export async function getList(): Promise<void> {
   const loanList = useLoanListState()
   const { loanList: _loanList } = storeToRefs(loanList)
 
+  const cachedLoanList = localStorage.getItem('cachedLoanList')
+  const cacheTimestamp = localStorage.getItem('cachedLoanListTimestamp')
+
+  if (cachedLoanList && cacheTimestamp) {
+    const currentTime = new Date().getTime()
+    const maxAge = 5 * 60 * 1000
+
+    if (currentTime - Number.parseInt(cacheTimestamp, 10) <= maxAge) {
+      _loanList.value.push(...JSON.parse(cachedLoanList))
+      return
+    }
+  }
+
   loadingList.value = true
   const res = await fetchInstance('/', {
     method: 'GET',
@@ -28,6 +41,9 @@ export async function getList(): Promise<void> {
     .finally(() => {
       loadingList.value = false
     })
+
+  localStorage.setItem('cachedLoanList', JSON.stringify(res))
+  localStorage.setItem('cachedLoanListTimestamp', new Date().getTime().toString())
 
   if (_loanList.value.length) {
     _loanList.value = []
