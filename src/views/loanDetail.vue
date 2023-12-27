@@ -2,12 +2,14 @@
 import { onBeforeMount, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
+import { Icon } from '@iconify/vue'
 import { useLoanListState } from '@/stores/loanListState'
 import { getList } from '@/composables/loanList'
 import { useCurrencyFormat } from '@/plugins/numberFormatter'
 import { useDateFormatter } from '@/plugins/dateFormatter'
 import CardRoot from '@/components/ui/organisms/CardRoot.vue'
 import SkeletonsComponents from '@/components/ui/atoms/SkeletonsComponents.vue'
+import BaseButton from '@/components/ui/atoms/BaseButton.vue'
 
 const loanList = useLoanListState()
 const { loanDetail: _loanDetail, loanList: _loanList, loadingState } = storeToRefs(loanList)
@@ -36,6 +38,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
+  <BaseButton
+    id="btn-redirect"
+    class="btn-ghost mt-4 ml-4"
+    to="/"
+  >
+    <Icon
+      icon="solar:double-alt-arrow-left-linear"
+      class="text-xl"
+    />
+    <p>Back</p>
+  </BaseButton>
   <div class="p-10">
     <SkeletonsComponents
       v-if="loadingState"
