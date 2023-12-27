@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { getList } from '@/composables/loanList'
+import { getList, loadingList } from '@/composables/loanList'
 import { useLoanListState } from '@/stores/loanListState'
 import { useCurrencyFormat } from '@/plugins/numberFormatter'
 import BaseButton from '@/components/ui/atoms/BaseButton.vue'
 import CardRoot from '@/components/ui/organisms/CardRoot.vue'
 import TableComponents from '@/components/ui/organisms/TableComponents.vue'
+import SpinnerComponent from '@/components/ui/atoms/SpinnerComponent.vue'
 
 const loanList = useLoanListState()
 const { loanList: _loanList } = storeToRefs(loanList)
@@ -19,9 +20,11 @@ const { loanList: _loanList } = storeToRefs(loanList)
     <BaseButton
       id="click2see"
       class="btn-primary"
+      :disabled="loadingList"
       @click="getList"
     >
-      Click to see Loan List
+      <SpinnerComponent v-if="loadingList" />
+      <span v-else>Click to see Loan List</span>
     </BaseButton>
   </div>
   <section
