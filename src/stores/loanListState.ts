@@ -1,10 +1,8 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { RouteParamValueRaw } from 'vue-router'
 
 export const useLoanListState = defineStore('loan_state', () => {
-  const loanList = ref<Record<string, any>[]>([])
-  const loanDetail = ref<Record<string, any>>({})
   /**
    * this loading state default value is important to be true
    * the sole purpose is to delay rendered card in the detail page.
@@ -12,6 +10,34 @@ export const useLoanListState = defineStore('loan_state', () => {
    * race condition
    */
   const loadingState = ref(true)
+  const loanList = ref<Record<string, any>[]>([])
+  const loanDetail = ref<Record<string, any>>({})
+  const shownList = ref<any>([])
+  const page = ref(1)
+  const itemsPerPage = ref(5)
+
+  /**
+   * Calculates the total number of pages based on the length of the loan list and the number of items per page.
+   *
+   * @param loanList - Reference to the array containing loan list items.
+   * @param itemsPerPage - Reference to the number of items per page.
+   * @returns A computed property representing the total number of pages.
+   */
+  const totalPages = computed(() => Math.ceil(loanList.value.length / itemsPerPage.value))
+
+  /**
+   * Watches changes in the current page and loan list, updating the shown list accordingly.
+   *
+   * @param page - Reference to the current page.
+   * @param loanList - Reference to the array containing loan list items.
+   * @param itemsPerPage - Reference to the number of items per page.
+   * @param shownList - Reference to the array containing the currently shown list.
+   */
+  watch([() => page.value, loanList.value], () => {
+    const start = (page.value - 1) * itemsPerPage.value
+    const end = start + itemsPerPage.value
+    shownList.value = loanList.value.slice(start, end)
+  })
 
   /**
    * Retrieves loan details by ID from the loan list.
@@ -39,6 +65,9 @@ export const useLoanListState = defineStore('loan_state', () => {
     getDetailById,
     loanDetail,
     loadingState,
+    shownList,
+    page,
+    totalPages,
   }
 })
 

@@ -9,12 +9,16 @@ import TableComponents from '@/components/ui/organisms/TableComponents.vue'
 import SpinnerComponent from '@/components/ui/atoms/SpinnerComponent.vue'
 
 const loanList = useLoanListState()
-const { loanList: _loanList } = storeToRefs(loanList)
+const { shownList, totalPages, page } = storeToRefs(loanList)
+
+function goToPage(pageNumber: number) {
+  page.value = pageNumber
+}
 </script>
 
 <template>
   <div
-    v-if="!_loanList.length"
+    v-if="!shownList.length"
     class="flex justify-center min-h-screen items-center"
   >
     <BaseButton
@@ -32,7 +36,7 @@ const { loanList: _loanList } = storeToRefs(loanList)
     class="grid place-items-center min-h-screen sm:block"
   >
     <div
-      v-for="item in _loanList"
+      v-for="item in shownList"
       :key="item.borrower"
       class="max-h-screen overflow-scroll w-96 p-4 sm:hidden"
     >
@@ -58,7 +62,21 @@ const { loanList: _loanList } = storeToRefs(loanList)
     </div>
 
     <div class="py-10 hidden sm:block">
-      <TableComponents :items="_loanList" />
+      <div class="join">
+        <button
+          v-for="btn in 6"
+          :key="btn"
+          class="join-item btn"
+          :class="{ 'btn-active': page === btn }"
+          @click="goToPage(btn)"
+        >
+          {{ btn }}
+        </button>
+      </div>
+      <TableComponents
+        :items="shownList"
+        :total-page="totalPages"
+      />
     </div>
   </section>
 </template>
