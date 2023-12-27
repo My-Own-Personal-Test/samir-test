@@ -19,9 +19,13 @@ const props = defineProps<Props>()
 const direction = ref('asc')
 const loanState = useLoanListState()
 
-function sort(params: Sort) {
+/**
+ * Toggles the sorting direction and calls the `sortList` function from the loan list store.
+ *
+ * @param params - Sorting options.
+ */
+function sort(params: Sort): void {
   const { sortList } = loanState
-
   direction.value = params.direction === 'asc' ? 'desc' : 'asc'
   sortList(params.direction)
 }

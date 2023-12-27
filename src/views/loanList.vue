@@ -18,6 +18,9 @@ function goToPage(pageNumber: number) {
   page.value = pageNumber
 }
 
+/**
+ * Toggles the sorting direction and calls the `sortList` function from the loan list store.
+ */
 function sort() {
   const { sortList } = loanList
   direction.value = direction.value === 'asc' ? 'desc' : 'asc'
