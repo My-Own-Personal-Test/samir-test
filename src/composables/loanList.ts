@@ -20,6 +20,7 @@ export async function getList(): Promise<void> {
   const cachedLoanList = localStorage.getItem('cachedLoanList')
   const cacheTimestamp = localStorage.getItem('cachedLoanListTimestamp')
 
+  // Check if the cached loan list is still valid
   if (cachedLoanList && cacheTimestamp) {
     const currentTime = new Date().getTime()
     const maxAge = 5 * 60 * 1000
