@@ -1,5 +1,4 @@
 import { ref } from 'vue'
-import type { FetchResponse } from 'ofetch'
 import { storeToRefs } from 'pinia'
 import { fetchInstance } from '@/composables/fetch.config'
 import { useLoanListState } from '@/stores/loanListState'
@@ -19,7 +18,7 @@ export async function getList(): Promise<void> {
   const { loanList: _loanList } = storeToRefs(loanList)
 
   loadingList.value = true
-  const res: FetchResponse<JSON> = await fetchInstance('/', {
+  const res = await fetchInstance('/', {
     method: 'GET',
     parseResponse: JSON.parse,
   })
@@ -32,9 +31,9 @@ export async function getList(): Promise<void> {
 
   if (_loanList.value.length) {
     _loanList.value = []
-    _loanList.value.push(res)
+    _loanList.value.push(...res)
   }
   else {
-    _loanList.value.push(res)
+    _loanList.value.push(...res)
   }
 }
