@@ -9,9 +9,9 @@ const router = createRouter({
       component: () => import('../views/loanList.vue'),
     },
     {
-      path: '/detail/:user',
+      path: '/detail/:loanId',
       name: 'deatil',
-      component: () => import('../views/detailUser.vue'),
+      component: () => import('../views/loanDetail.vue'),
     },
   ],
 })
