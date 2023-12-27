@@ -5,21 +5,26 @@ import { useLoanListState } from '@/stores/loanListState'
 import { useCurrencyFormat } from '@/plugins/numberFormatter'
 import BaseButton from '@/components/ui/atoms/BaseButton.vue'
 import CardRoot from '@/components/ui/organisms/CardRoot.vue'
+import TableComponents from '@/components/ui/organisms/TableComponents.vue'
 
 const loanList = useLoanListState()
 const { loanList: _loanList } = storeToRefs(loanList)
 </script>
 
 <template>
-  <section class="grid place-items-center min-h-screen">
+  <div
+    v-if="!_loanList.length"
+    class="flex justify-center min-h-screen items-center"
+  >
     <BaseButton
-      v-if="!_loanList.length"
       id="click2see"
       class="btn-primary"
       @click="getList"
     >
       Click to see Loan List
     </BaseButton>
+  </div>
+  <section class="grid place-items-center min-h-screen sm:block">
     <div
       v-for="item in _loanList"
       :key="item.id"
