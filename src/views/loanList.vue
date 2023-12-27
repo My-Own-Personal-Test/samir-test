@@ -62,6 +62,12 @@ function goToPage(pageNumber: number) {
     </div>
 
     <div class="py-10 hidden sm:block">
+      <TableComponents
+        :items="shownList"
+        :total-page="totalPages"
+      />
+    </div>
+    <div class="grid place-items-center mt-4">
       <div class="join">
         <button
           v-for="btn in 6"
@@ -73,10 +79,6 @@ function goToPage(pageNumber: number) {
           {{ btn }}
         </button>
       </div>
-      <TableComponents
-        :items="shownList"
-        :total-page="totalPages"
-      />
     </div>
   </section>
 </template>
