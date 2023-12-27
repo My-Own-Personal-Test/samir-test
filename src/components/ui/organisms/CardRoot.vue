@@ -4,7 +4,7 @@ import { cn } from '@/plugins/twMerge'
 import BaseButton from '@/components/ui/atoms/BaseButton.vue'
 
 interface Props {
-  userId: string
+  loanId: string
   class?: string
 }
 
@@ -24,7 +24,7 @@ const props = defineProps<Props>()
         <BaseButton
           id="btn-redirect"
           class="btn-primary"
-          :to="`/detail/${props.userId}`"
+          :to="`/detail/${props.loanId}`"
         >
           see details
           <Icon

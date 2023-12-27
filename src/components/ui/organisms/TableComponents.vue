@@ -40,7 +40,7 @@ const props = defineProps<Props>()
             <BaseButton
               id="btn-redirect"
               class="btn-primary btn-sm"
-              :to="`/detail/${item.borrower.id}`"
+              :to="`/detail/${item.id}`"
             >
               see details
               <Icon

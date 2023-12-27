@@ -37,7 +37,7 @@ const { loanList: _loanList } = storeToRefs(loanList)
       class="max-h-screen overflow-scroll w-96 p-4 sm:hidden"
     >
       <CardRoot
-        :user-id="item.borrower.id"
+        :loan-id="item.id"
       >
         <template #head>
           <p>Name: {{ item.borrower.name }}</p>
