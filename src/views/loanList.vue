@@ -24,10 +24,13 @@ const { loanList: _loanList } = storeToRefs(loanList)
       Click to see Loan List
     </BaseButton>
   </div>
-  <section class="grid place-items-center min-h-screen sm:block">
+  <section
+    v-else
+    class="grid place-items-center min-h-screen sm:block"
+  >
     <div
       v-for="item in _loanList"
-      :key="item.id"
+      :key="item.borrower"
       class="max-h-screen overflow-scroll w-96 p-4 sm:hidden"
     >
       <CardRoot
@@ -48,6 +51,10 @@ const { loanList: _loanList } = storeToRefs(loanList)
           </div>
         </template>
       </CardRoot>
+    </div>
+
+    <div class="py-10">
+      <TableComponents :items="_loanList" />
     </div>
   </section>
 </template>
