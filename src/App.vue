@@ -5,7 +5,9 @@ import AlertRoot from '@/components/ui/molecules/AlertRoot.vue'
 
 <template>
   <div>
-    <RouterView />
+    <main class="container">
+      <RouterView />
+    </main>
     <AlertRoot />
   </div>
 </template>
