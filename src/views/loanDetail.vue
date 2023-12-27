@@ -73,7 +73,7 @@ onBeforeUnmount(() => {
 
       <template #body>
         <div class="">
-          <div class="grid grid-cols-2">
+          <div class="sm:grid grid-cols-2">
             <div>
               <p class="font-semibold">
                 Borrower Details:
@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
             </div>
           </div>
 
-          <div class="mt-4 grid grid-cols-2">
+          <div class="mt-4 sm:grid grid-cols-2">
             <div>
               <p class="font-semibold">
                 Repayment Schedule:
@@ -121,8 +121,8 @@ onBeforeUnmount(() => {
                   :key="id"
                   class="mb-2"
                 >
-                  <div class="flex gap-x-4">
-                    <span>{{ id + 1 }}. Due Date: {{ useDateFormatter(item.dueDate) }}</span>
+                  <div class="sm:flex gap-x-4">
+                    <span>{{ id + 1 }}. Due Date: {{ useDateFormatter(item.dueDate) }}</span><br class="sm:hidden">
                     <span>Amount Due: {{ useCurrencyFormat(item.amountDue) }}</span>
                   </div>
                 </li>
@@ -134,7 +134,7 @@ onBeforeUnmount(() => {
                 Loan Information:
               </p>
 
-              <div class="mt-1 grid grid-cols-2">
+              <div class="mt-1 sm:grid grid-cols-2">
                 <div>
                   <p>Loan Amount: {{ useCurrencyFormat(_loanDetail.amount) }}</p>
                   <p>Risk: {{ _loanDetail.riskRating }}</p>
@@ -144,7 +144,7 @@ onBeforeUnmount(() => {
                 <div>
                   <p>Purpose: {{ _loanDetail.purpose }}</p>
                   <p>Interest Rate: {{ _loanDetail.interestRate }}%</p>
-                  <p>
+                  <p class="mt-1 sm:mt-0">
                     Collateral: <span class="grid grid-cols-2">
                       <p>{{ _loanDetail.collateral.type }}</p>
                       <p>{{ useCurrencyFormat(_loanDetail.collateral.value) }}</p>
