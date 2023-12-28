@@ -21,6 +21,9 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
+## Required
+Install eslint Extension for this project, so the auto fix using @antfu/esint-config can be worked as expected. [See this link for more information](https://github.com/antfu/eslint-config)
+
 ## Project Setup
 
 ```sh
